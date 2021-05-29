@@ -1,0 +1,61 @@
+- hosts: all
+  tasks:
+  - name: install docker
+    yum:
+       name: docker
+       state: latest
+  - name: Start docker service
+    service:
+       name: docker
+       state: started
+       enabled: yes
+  - name: Add repository
+    yum_repository:
+       name: Kubernetes
+       description: EPEL YUM repo
+       baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+       gpgcheck: no
+       enabled: yes
+  - name: install kubelet
+    yum:
+       name: kubelet
+       state: present
+  - name: install kubeadm
+    yum:
+       name: kubeadm
+       state: present
+  - name: install kubectl
+    yum:
+       name: kubectl
+       state: present
+  - name: kubeadm image pull
+    command: "kubeadm config images pull"
+  - name: kubeadm init
+    command: "kubeadm init --pod-network-cidr=10.240.0.0/16"
+    ignore_errors: yes
+  - name: copy docker daemon.json
+    copy:
+       src: daemon.json
+       dest: /etc/docker/daemon.json
+  - name: Restart docker service
+    service:
+       name: docker
+       state: restarted
+       enabled: yes
+  - name: install iproute-tc
+    yum:
+       name: iproute-tc
+       state: present
+  - name: kubeadm init
+    command: "kubeadm init --pod-network-cidr=10.240.0.0/16 --ignore-preflight-errors=NumCPU
+--ignore-preflight-errors=Mem"
+    ignore_errors: yes
+
+  - name: create folder
+    command: "mkdir -p $HOME/.kube"
+  - name: copy files
+    command: "sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config"
+  - name: chown
+    command: "sudo chown $(id -u):$(id -g) $HOME/.kube/config"
+
+

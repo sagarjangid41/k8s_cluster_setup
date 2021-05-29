@@ -1,0 +1,47 @@
+- hosts: all
+  tasks:
+  - name: install docker
+    yum:
+       name: docker
+       state: latest
+  - name: Start docker service
+    service:
+       name: docker
+       state: started
+       enabled: yes
+  - name: Add repository
+    yum_repository:
+       name: Kubernetes
+       description: EPEL YUM repo
+       baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+       gpgcheck: no
+       enabled: yes
+  - name: install kubelet
+    yum:
+       name: kubelet
+       state: present
+  - name: install kubeadm
+    yum:
+       name: kubeadm
+       state: present
+  - name: start kubectl service
+    yum:
+       name: kubectl
+       state: present
+  - name: copy docker daemon.json
+    copy:
+       src: daemon.json
+       dest: /etc/docker/daemon.json
+  - name: Restart docker service
+    service:
+       name: docker
+       state: restarted
+       enabled: yes
+  - name: install iproute-tc
+    yum:
+       name: iproute-tc
+       state: present
+  - name: copy k8s.conf
+    copy:
+       src: k8s.conf
+       dest: /etc/sysctl.d/k8s.conf
