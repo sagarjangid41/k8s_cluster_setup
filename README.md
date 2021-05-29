@@ -3,8 +3,9 @@
 <br>
 <img src="https://raw.githubusercontent.com/sagarjangid41/k8s_cluster_setup/main/setup%20multicluster.png" />
 
-<h3>We only need to run terraform script <br>
- ALL setup Automatically done🥳🥳
+<h3>We only need to run terraform script </h3> <br>
+<h3>  ALL setup automatically done🥳🥳
+ 
   Run 👉 terraform apply command</h3> 
 <h3> Please don't forget to run  👉 terraform init  command </h3>
 
