@@ -6,6 +6,6 @@
 <h3>We only need to run terraform script <br>
   ALL setup Automatically done🥳🥳
 </h3> <b> 👉 terraform apply </b>
-<h3> Please don't forget to run <h2> 👉 terraform init </h2> command </h3>
+<h3> Please don't forget to run  👉 terraform init  command </h3>
 
 <h1> Thank You Guy's 🙂</h1>
